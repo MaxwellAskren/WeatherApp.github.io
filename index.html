@@ -15,45 +15,62 @@
 </head>
 <body class="bg-dark">
     <div class="container">
+        <!-- Card has variable size -->
         <div class="card sm-col-6 md-col-6 lg-col-10 py-2" >
+            <!-- Card header -->
             <h1 class="mb-4 text-center">Maxwell Askren's Weather App</h1>
-            <div class = "row">
-                <div class = "col-6 text-center justify-content-center border-end">
-                    <i class="bi bi-geo-fill" class="text-primary" style="font-size: xx-large"></i>
-                    <h1 tabindex="0" class="text-primary">Cookeville, TN</h1>
-                    <p tabindex="0" id="dateHeader" class="text-secondary" style="font-size: x-large">Loading...</p>
-                    <p tabindex="0" id="timeHeader" class="text-secondary" style="font-size: large">Loading...</p>
-                    <hr class="m-3">
-                    <p tabindex="0" id="minTempHeader" class="d-block text-body" style="font-size: small">
-                        <i class="bi bi-thermometer-snow"></i>
-                        Min Temp:
-                    </p>
-                    <p tabindex="0" id="maxTempHeader" class="d-block text-body" style="font-size: small">
-                        <i class="bi bi-thermometer-sun"></i>
-                        Max Temp:
-                    </p>
-                </div>
-                <div class = "col-6 text-center justify-content-center">
-                    <h1 tabindex="0">Current Conditions</h1>
-                    <p tabindex="0" class="d-block" id="conditionsHeader" style="font-size: x-large"></p>
-                    <hr class="m-3">
-                    <p tabindex="0" id="currentTempAndHumidity" style="font-size: large">
-                        Loading...
-                    </p>
-                    <p tabindex="0" class="d-block" id="sunrise" style="font-size: small">
-                        Loading...
-                    </p>
-                    <p tabindex="0" class="d-block" id="sunset" style="font-size: small">
-                        Loading...
-                    </p>
-                </div>
+
+            <!-- Cut card in half to break up content -->
+            <div class = "col-6 text-center justify-content-center border-end">
+                <i class="bi bi-geo-fill" class="text-primary" style="font-size: xx-large"></i>
+                <h1 tabindex="0" class="text-primary">Cookeville, TN</h1>
+
+                <!-- Loading... acts as filler text until the api call populates these -->
+                <p tabindex="0" id="dateSection" class="text-secondary" style="font-size: x-large">Loading...</p>
+                <p tabindex="0" id="timeSection" class="text-secondary" style="font-size: large">Loading...</p>
+
+                <!-- hr tag to create a horizontal bar to break up content-->
+                <hr class="m-3">
+
+                <!-- text in these two sections gets appended with the relevant info below -->
+                <p tabindex="0" id="minTempSection" class="d-block text-body" style="font-size: small">
+                    <i class="bi bi-thermometer-snow"></i>
+                    Min Temp:
+                </p>
+                <p tabindex="0" id="maxTempSection" class="d-block text-body" style="font-size: small">
+                    <i class="bi bi-thermometer-sun"></i>
+                    Max Temp:
+                </p>
+            </div>
+
+
+            <div class = "col-6 text-center justify-content-center">
+                <h1 tabindex="0">Current Conditions</h1>
+
+                <!-- conditionsSection is invisible until populated with info below  -->
+                <p tabindex="0" class="d-block" id="conditionsSection" style="font-size: x-large"></p>
+
+                <!-- hr tag to create a horizontal bar to break up content-->
+                <hr class="m-3">
+
+                <!-- More filler text -->
+                <p tabindex="0" id="currentTempAndHumidity" style="font-size: large">
+                    Loading...
+                </p>
+                <p tabindex="0" class="d-block" id="sunrise" style="font-size: small">
+                    Loading...
+                </p>
+                <p tabindex="0" class="d-block" id="sunset" style="font-size: small">
+                    Loading...
+                </p>
             </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </body>
 <script>
+
+    //$(document).ready ensures that this will only run when the rest of the website is populated
     $(document).ready(function () {
         fetch(`https://api.open-meteo.com/v1/forecast?latitude=36.1628&longitude=-85.5016&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset&current=temperature_2m,relative_humidity_2m,is_day,weather_code&timezone=America%2FChicago&forecast_days=1`)
         .then(response => response.json())
@@ -73,127 +90,128 @@
             let sunsetTime = data.daily.sunset[0].slice(11, 16)
             
             //filling in text on screen
-            document.querySelector('#dateHeader').innerHTML = currentDay
-            document.querySelector('#timeHeader').innerHTML = "Time Last Fetched: " + currentTime
-            document.querySelector('#minTempHeader').innerHTML += dailyTempMin + "°C"
-            document.querySelector('#maxTempHeader').innerHTML += dailyTempMax + "°C"
+            document.querySelector('#dateSection').innerHTML = currentDay
+            document.querySelector('#timeSection').innerHTML = "Time Last Fetched: " + currentTime
+            document.querySelector('#minTempSection').innerHTML += dailyTempMin + "°C"
+            document.querySelector('#maxTempSection').innerHTML += dailyTempMax + "°C"
             document.querySelector('#currentTempAndHumidity').innerHTML = `<i class="bi bi-thermometer"></i>` + currentTemp + "°C &emsp;" + `<i class="bi bi-droplet-fill"></i>` + currentHumidity + "%"
             document.querySelector('#sunrise').innerHTML = "Sunrise: " + sunriseTime
             document.querySelector('#sunset').innerHTML = "Sunset: " + sunsetTime
 
-            //Switch for weathercode
-            //If statements for icons based on whether it is day or night
+            //Switch for weathercode icons and text with nested if statements for icons based on whether it is day or night
             switch(Weathercode){
                 case 0:
                     if(isDay){
-                        document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-sun-fill"></i>` + "Clear Skies"
+                        document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-sun-fill"></i>` + "Clear Skies"
                     }else{
-                        document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-moon-fill"></i>` + "Clear Skies"
+                        document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-moon-fill"></i>` + "Clear Skies"
                     }
                     break;
                 case 1:
                     if(isDay){
-                        document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-sun-fill"></i>` + "Slightly Cloudy"
+                        document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-sun-fill"></i>` + "Slightly Cloudy"
                     }else{
-                        document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-moon-fill"></i>` + "Slightly Cloudy"
+                        document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-moon-fill"></i>` + "Slightly Cloudy"
                     }
                     break;
                 case 2:
                     if(isDay){
-                        document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-sun-fill"></i>` + "Partly Cloudy"
+                        document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-sun-fill"></i>` + "Partly Cloudy"
                     }else{
-                        document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-moon-fill"></i>` + "Partly Cloudy"
+                        document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-moon-fill"></i>` + "Partly Cloudy"
                     }
                     break;
                 case 3:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-clouds"></i>` + "Overcast"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-clouds"></i>` + "Overcast"
                     break;
                 case 45:
                     if(isDay){
-                        document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-fog2"></i>` + "Foggy"
+                        document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-fog2"></i>` + "Foggy"
                     }else{
-                        document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-fog2-fill"></i>` + "Foggy"
+                        document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-fog2-fill"></i>` + "Foggy"
                     }
                 case 48:
                     if(isDay){
-                        document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-fog2"></i>` + "Foggy"
+                        document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-fog2"></i>` + "Foggy"
                     }else{
-                        document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-fog2-fill"></i>` + "Foggy"
+                        document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-fog2-fill"></i>` + "Foggy"
                     }
                     break;
                 case 51:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-drizzle"></i>` + "Drizzle"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-drizzle"></i>` + "Drizzle"
                     break;
                 case 53:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-drizzle"></i>` + "Drizzle"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-drizzle"></i>` + "Drizzle"
                     break;
                 case 56:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-drizzle"></i>` + "Drizzle"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-drizzle"></i>` + "Drizzle"
                     break;
                 case 55:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-drizzle-fill"></i>` + "Dense Drizzle"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-drizzle-fill"></i>` + "Dense Drizzle"
                     break;
                 case 57:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-drizzle-fill"></i>` + "Dense Drizzle"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-drizzle-fill"></i>` + "Dense Drizzle"
                     break;
                 case 61:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-rain"></i>` + "Raining"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-rain"></i>` + "Raining"
                     break;
                 case 63:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-rain"></i>` + "Raining"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-rain"></i>` + "Raining"
                     break;
                 case 66:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-rain"></i>` + "Raining"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-rain"></i>` + "Raining"
                     break;
                 case 65: 
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-rain-heavy"></i>` + "Raining with Intensity"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-rain-heavy"></i>` + "Raining with Intensity"
                     break; 
                 case 67:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-rain-heavy"></i>` + "Raining with Intensity"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-rain-heavy"></i>` + "Raining with Intensity"
                     break;
                 case 71:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-snow"></i>` + "Snowing"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-snow"></i>` + "Snowing"
                     break;
                 case 73:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-snow"></i>` + "Snowing"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-snow"></i>` + "Snowing"
                     break;
                 case 75:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-snow-fill"></i>` + "Snowing with Intensity"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-snow-fill"></i>` + "Snowing with Intensity"
                     break;
                 case 77:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-snow"></i>` + "Snow Grains"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-snow"></i>` + "Snow Grains"
                     break;
                 case 80:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-rain-fill"></i>` + "Rain Showers"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-rain-fill"></i>` + "Rain Showers"
                     break;
                 case 81:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-rain-fill"></i>` + "Rain Showers"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-rain-fill"></i>` + "Rain Showers"
                     break;
                 case 82:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-rain-heavy-fill"></i>` + "Intense Rain Showers"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-rain-heavy-fill"></i>` + "Intense Rain Showers"
                     break;
                 case 85: 
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-snow-fill"></i>` + "Snow Showers"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-snow-fill"></i>` + "Snow Showers"
                     break;
                 case 86:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-snow-fill"></i>` + "Snow Showers"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-snow-fill"></i>` + "Snow Showers"
                     break;
                 case 95:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-lightning-rain"></i>` + "Thunderstorm"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-lightning-rain"></i>` + "Thunderstorm"
                     break;
                 case 96:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-lightning-rain"></i>` + "Thunderstorm"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-lightning-rain"></i>` + "Thunderstorm"
                     break;
                 case 99:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-lightning-rain"></i>` + "Thunderstorm"
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-cloud-lightning-rain"></i>` + "Thunderstorm"
                     break;
                 default:
-                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-patch-question"></i>` + "Conditions Uncertain. Weather code is " + Weathercode
+                    document.querySelector('#conditionsSection').innerHTML = `<i class="bi bi-patch-question"></i>` + "Conditions Uncertain. Weather code is " + Weathercode
                     break;
             }
         })
     })
 </script>
+
+    <!-- footer to credit open-meteo -->
     <footer class="text-secondary" style="font-size: x-small;">
         Weather data courtesy of 
         <a href="https://open-meteo.com/" class="text-secondary">open-meteo.com</a>
