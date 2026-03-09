@@ -108,26 +108,53 @@
                 case 3:
                     document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-clouds"></i>` + "Overcast"
                     break;
-                case 45, 48:
+                case 45:
+                    if(isDay){
+                        document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-fog2"></i>` + "Foggy"
+                    }else{
+                        document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-fog2-fill"></i>` + "Foggy"
+                    }
+                case 48:
                     if(isDay){
                         document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-fog2"></i>` + "Foggy"
                     }else{
                         document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-fog2-fill"></i>` + "Foggy"
                     }
                     break;
-                case 51, 53, 56:
+                case 51:
                     document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-drizzle"></i>` + "Drizzle"
                     break;
-                case 55, 57:
+                case 53:
+                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-drizzle"></i>` + "Drizzle"
+                    break;
+                case 56:
+                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-drizzle"></i>` + "Drizzle"
+                    break;
+                case 55:
                     document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-drizzle-fill"></i>` + "Dense Drizzle"
                     break;
-                case 61, 63, 66:
+                case 57:
+                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-drizzle-fill"></i>` + "Dense Drizzle"
+                    break;
+                case 61:
                     document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-rain"></i>` + "Raining"
                     break;
-                case 65, 67:
+                case 63:
+                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-rain"></i>` + "Raining"
+                    break;
+                case 66:
+                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-rain"></i>` + "Raining"
+                    break;
+                case 65: 
+                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-rain-heavy"></i>` + "Raining with Intensity"
+                    break; 
+                case 67:
                     document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-rain-heavy"></i>` + "Raining with Intensity"
                     break;
-                case 71, 73:
+                case 71:
+                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-snow"></i>` + "Snowing"
+                    break;
+                case 73:
                     document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-snow"></i>` + "Snowing"
                     break;
                 case 75:
@@ -136,16 +163,28 @@
                 case 77:
                     document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-snow"></i>` + "Snow Grains"
                     break;
-                case 80, 81:
+                case 80:
+                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-rain-fill"></i>` + "Rain Showers"
+                    break;
+                case 81:
                     document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-rain-fill"></i>` + "Rain Showers"
                     break;
                 case 82:
                     document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-rain-heavy-fill"></i>` + "Intense Rain Showers"
                     break;
-                case 85, 86:
+                case 85: 
                     document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-snow-fill"></i>` + "Snow Showers"
                     break;
-                case 95, 96, 99:
+                case 86:
+                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-snow-fill"></i>` + "Snow Showers"
+                    break;
+                case 95:
+                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-lightning-rain"></i>` + "Thunderstorm"
+                    break;
+                case 96:
+                    document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-lightning-rain"></i>` + "Thunderstorm"
+                    break;
+                case 99:
                     document.querySelector('#conditionsHeader').innerHTML = `<i class="bi bi-cloud-lightning-rain"></i>` + "Thunderstorm"
                     break;
                 default:
